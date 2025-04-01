@@ -21,17 +21,20 @@ generator client {
 model User {
   @@map("users")
   id Int @id @default(autoincrement())
-  public_id String @default(uuid())
+  publicId String @default(uuid()) @map("public_id")
   email String  @unique
   name  String
   password String
   Sensor Sensor[]
 }
 
-model Sensor{
+model Sensor {
   @@map("sensors")
   id Int @id @default(autoincrement())
   name String 
-  owner User @relation(fields: [user_id], references: [id])
-  user_id Int 
+  owner User @relation(fields: [userId], references: [id])
+  userId Int @map("user_id")
+  waterVolumeSensor Float? @map("water_volume_litters_sensor")
+  grainQuantitySensor Float? @map("grain_quantity_litters_sensor")
 }
+
