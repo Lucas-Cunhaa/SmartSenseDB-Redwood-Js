@@ -1,6 +1,7 @@
 .idea
 .DS_Store
 .env*
+api/db/migrations
 !.env.example
 !.env.defaults
 .netlify
