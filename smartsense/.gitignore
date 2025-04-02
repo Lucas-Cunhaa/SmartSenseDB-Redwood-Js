@@ -1,7 +1,6 @@
 .idea
 .DS_Store
 .env*
-api/db/migrations
 !.env.example
 !.env.defaults
 .netlify
@@ -14,6 +13,7 @@ node_modules
 yarn-error.log
 web/public/mockServiceWorker.js
 web/types/graphql.d.ts
+api/db/migrations
 api/types/graphql.d.ts
 api/src/lib/generateGraphiQLHeader.*
 .pnp.*
