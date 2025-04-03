@@ -1,9 +1,12 @@
 export const schema = gql`
-  type Sensor {
+  type Scalar {
+
+  }
+  type Sensor @atLeastOne(fields: ["waterVolumeSensor", "grainQuantitySensor"]){
     id: Int!
     name: String!
     userId: Int!
-    waterVolumeSensor: Float
+    waterVolumeSensor: Float 
     grainQuantitySensor: Float
   }
 
@@ -14,14 +17,14 @@ export const schema = gql`
 
   input CreateSensorInput {
     name: String!
-    userId: Int!
+    userPublicId: String!
     waterVolumeSensor: Float
     grainQuantitySensor: Float
   }
 
-  input UpdateSensorInput {
+  input UpdateSensorInput @atLeastOne(fields: ["name", "waterVolumeSensor", "grainQuantitySensor"]){
     name: String
-    userId: Int
+    userPublicId: String!
     waterVolumeSensor: Float
     grainQuantitySensor: Float
   }

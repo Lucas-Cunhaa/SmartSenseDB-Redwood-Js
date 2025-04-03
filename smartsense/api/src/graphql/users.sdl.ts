@@ -1,4 +1,5 @@
 export const schema = gql`
+
   type User {
     id: Int!
     publicId: String!
@@ -14,13 +15,12 @@ export const schema = gql`
   }
 
   input CreateUserInput {
-    publicId: String!
     email: String!
     name: String!
     password: String!
   }
 
-  input UpdateUserInput {
+  input UpdateUserInput @atLeastOne(fields: ["email", "name", "password"]){
     publicId: String!
     email: String
     name: String
