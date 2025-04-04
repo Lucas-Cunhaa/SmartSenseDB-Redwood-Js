@@ -12,7 +12,7 @@ export const users: QueryResolvers['users'] = async () => {
 
 export const user: QueryResolvers['user'] = async ({ publicId }) => {
   return await db.user.findUnique({
-    where: {  },
+    where: { publicId },
   })
 }
 
@@ -26,7 +26,7 @@ export const createUser: MutationResolvers['createUser'] = ({ input }) => {
 
 export const updateUser: MutationResolvers['updateUser'] = ({ publicId, input }) => {
   if(!input.name.trim() && !input.email.trim() && !input.password.trim()) throw new Error("User updating: INVALID FIELDS FOR USER");
-  
+
   return db.user.update({
     data: input,
     where: { publicId },
@@ -46,5 +46,5 @@ export const User: UserRelationResolvers = {
 }
 
 export const getUserByEmail: QueryResolvers['getUserByEmail'] = async ({ email }) => {
-  return await db.user.findFirstOrThrow({ where: {email} }) 
+  return await db.user.findFirstOrThrow({ where: {email} })
 }

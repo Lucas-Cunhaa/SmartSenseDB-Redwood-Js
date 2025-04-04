@@ -9,7 +9,7 @@ export const standard = defineScenario<Prisma.SensorCreateArgs>({
         name: 'String',
         owner: {
           create: {
-            email: 'String7479278',
+            email: 'String2587244',
             name: 'String',
             password: 'String',
           },
@@ -21,7 +21,7 @@ export const standard = defineScenario<Prisma.SensorCreateArgs>({
         name: 'String',
         owner: {
           create: {
-            email: 'String9810991',
+            email: 'String8454943',
             name: 'String',
             password: 'String',
           },

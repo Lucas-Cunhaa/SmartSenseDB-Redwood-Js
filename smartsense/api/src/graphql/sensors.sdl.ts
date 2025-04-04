@@ -1,38 +1,35 @@
 export const schema = gql`
-  type Scalar {
-
-  }
-  type Sensor @atLeastOne(fields: ["waterVolumeSensor", "grainQuantitySensor"]){
+  type Sensor {
     id: Int!
     name: String!
-    owner: UserWithoutSensors!
+    owner: User!
     userId: Int!
     waterVolumeSensor: Float
     grainQuantitySensor: Float
   }
 
   type Query {
-    sensors: [Sensor!]!
-    sensor(id: Int!): Sensor
+    sensors: [Sensor!]! @requireAuth
+    sensor(id: Int!): Sensor @requireAuth
   }
 
   input CreateSensorInput {
     name: String!
-    userPublicId: String!
+    userId: Int!
     waterVolumeSensor: Float
     grainQuantitySensor: Float
   }
 
-  input UpdateSensorInput @atLeastOne(fields: ["name", "waterVolumeSensor", "grainQuantitySensor"]){
+  input UpdateSensorInput {
     name: String
-    userPublicId: String!
+    userId: Int
     waterVolumeSensor: Float
     grainQuantitySensor: Float
   }
 
   type Mutation {
-    createSensor(input: CreateSensorInput!): Sensor!
-    updateSensor(id: Int!, input: UpdateSensorInput!): Sensor!
-    deleteSensor(id: Int!): Sensor!
+    createSensor(input: CreateSensorInput!): Sensor! @requireAuth
+    updateSensor(id: Int!, input: UpdateSensorInput!): Sensor! @requireAuth
+    deleteSensor(id: Int!): Sensor! @requireAuth
   }
 `
