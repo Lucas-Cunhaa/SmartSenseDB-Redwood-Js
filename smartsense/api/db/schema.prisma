@@ -33,7 +33,7 @@ model Sensor {
   id Int @id @unique @default(autoincrement())
   name String
   owner User @relation(fields: [userId], references: [id])
-  userId Int @unique @map("user_id") 
+  userId Int @map("user_id") 
   waterVolumeSensor Float? @map("water_volume_litters_sensor")
   grainQuantitySensor Float? @map("grain_quantity_litters_sensor")
 }

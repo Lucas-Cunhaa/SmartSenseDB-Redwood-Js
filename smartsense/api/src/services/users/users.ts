@@ -5,6 +5,7 @@ import type {
 } from 'types/graphql'
 
 import { db } from 'src/lib/db'
+import { isEmpty } from 'src/utils/utils'
 
 export const users: QueryResolvers['users'] = async () => {
   return await db.user.findMany()
@@ -17,15 +18,21 @@ export const user: QueryResolvers['user'] = async ({ publicId }) => {
 }
 
 export const createUser: MutationResolvers['createUser'] = ({ input }) => {
-  if(!input.name.trim()|| !input.email.trim() || !input.password.trim()) throw new Error("User creation: INVALID FIELDS FOR USER");
+  try {
+    if(!input.name.trim()|| !input.email.trim() || !input.password.trim()) throw new Error("User creation: INVALID FIELDS FOR USER");
 
-  return db.user.create({
-    data: input,
-  })
+    return db.user.create({
+      data: input,
+    })
+    
+  } catch (error) {
+    console.error(error.message)
+  }
 }
 
-export const updateUser: MutationResolvers['updateUser'] = ({ publicId, input }) => {
-  if(!input.name.trim() && !input.email.trim() && !input.password.trim()) throw new Error("User updating: INVALID FIELDS FOR USER");
+export const updateUser: MutationResolvers['updateUser'] = ({publicId, input}) => {
+
+  if(isEmpty(input.name) && isEmpty(input.email) && isEmpty(input.name)) throw new Error("User updating: INVALID FIELDS FOR USER");
 
   return db.user.update({
     data: input,
@@ -33,15 +40,15 @@ export const updateUser: MutationResolvers['updateUser'] = ({ publicId, input })
   })
 }
 
-export const deleteUser: MutationResolvers['deleteUser'] = ({ id }) => {
+export const deleteUser: MutationResolvers['deleteUser'] = ({ publicId }) => {
   return db.user.delete({
-    where: { id },
+    where: { publicId },
   })
 }
 
 export const User: UserRelationResolvers = {
   Sensor: (_obj, { root }) => {
-    return db.user.findUnique({ where: { id: root?.id } }).Sensor()
+    return db.user.findUnique({ where: { id: root?.id } }).Sensors()
   },
 }
 
