@@ -11,7 +11,8 @@ export const schema = gql`
 
   type Query {
     users: [User!]! 
-    user(publicId: String!): User 
+    user(publicId: String!): User! 
+    getUserByEmail(email: String!) User!
   }
 
   input CreateUserInput {

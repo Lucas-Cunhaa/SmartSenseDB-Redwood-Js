@@ -6,13 +6,13 @@ import type {
 
 import { db } from 'src/lib/db'
 
-export const users: QueryResolvers['users'] = () => {
-  return db.user.findMany()
+export const users: QueryResolvers['users'] = async () => {
+  return await db.user.findMany()
 }
 
-export const user: QueryResolvers['user'] = ({ id }) => {
-  return db.user.findUnique({
-    where: { id },
+export const user: QueryResolvers['user'] = async ({ publicId }) => {
+  return await db.user.findUnique({
+    where: { publicId },
   })
 }
 
@@ -39,4 +39,8 @@ export const User: UserRelationResolvers = {
   Sensor: (_obj, { root }) => {
     return db.user.findUnique({ where: { id: root?.id } }).Sensor()
   },
+}
+
+export const getUserByEmail: QueryResolvers['getUserByEmail'] = async ({ email }) => {
+  return await db.user.findFirstOrThrow({ where: {email} }) 
 }
