@@ -5,8 +5,9 @@ export const schema = gql`
   type Sensor @atLeastOne(fields: ["waterVolumeSensor", "grainQuantitySensor"]){
     id: Int!
     name: String!
+    owner: UserWithoutSensors!
     userId: Int!
-    waterVolumeSensor: Float 
+    waterVolumeSensor: Float
     grainQuantitySensor: Float
   }
 

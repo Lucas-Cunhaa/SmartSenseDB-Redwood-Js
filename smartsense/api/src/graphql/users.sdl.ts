@@ -9,6 +9,14 @@ export const schema = gql`
     Sensor: [Sensor]!
   }
 
+  type UserWithoutSensors {
+    id: Int!
+    publicId: String!
+    email: String!
+    name: String!
+    password: String!
+  }
+
   type Query {
     users: [User!]! 
     user(publicId: String!): User! 
