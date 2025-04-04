@@ -6,8 +6,10 @@ import type {
 
 import { db } from 'src/lib/db'
 
-export const sensors: QueryResolvers['sensors'] = () => {
-  return db.sensor.findMany()
+export const sensors: QueryResolvers['sensors'] = ( idUsuario ) => {
+  return db.sensor.findMany({
+    where: { userId: idUsuario }
+  })
 }
 
 export const sensor: QueryResolvers['sensor'] = ({ id }) => {
@@ -24,17 +26,24 @@ export const createSensor: MutationResolvers['createSensor'] = ({ input }) => {
 
 export const updateSensor: MutationResolvers['updateSensor'] = ({
   id,
+  idUsuario,
   input,
 }) => {
   return db.sensor.update({
     data: input,
-    where: { id },
+    where: {
+      id: id,
+      userId: idUsuario
+     },
   })
 }
 
-export const deleteSensor: MutationResolvers['deleteSensor'] = ({ id }) => {
+export const deleteSensor: MutationResolvers['deleteSensor'] = ({ id, idUsuario }) => {
   return db.sensor.delete({
-    where: { id },
+    where: {
+      id: id,
+      userId: idUsuario
+    },
   })
 }
 

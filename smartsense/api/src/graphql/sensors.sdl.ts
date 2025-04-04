@@ -29,7 +29,7 @@ export const schema = gql`
 
   type Mutation {
     createSensor(input: CreateSensorInput!): Sensor! @requireAuth
-    updateSensor(id: Int!, input: UpdateSensorInput!): Sensor! @requireAuth
-    deleteSensor(id: Int!): Sensor! @requireAuth
+    updateSensor(id: Int!, idUsuario: Int!, input: UpdateSensorInput!): Sensor! @requireAuth
+    deleteSensor(id: Int!, idUsuario: Int!): Sensor! @requireAuth
   }
 `
