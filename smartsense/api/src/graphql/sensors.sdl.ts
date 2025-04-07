@@ -9,8 +9,13 @@ export const schema = gql`
   }
 
   type Query {
-    sensors: [Sensor!]! @skipAuth
-    sensor(id: Int!): Sensor @skipAuth
+    sensors(filter: filterInput): [Sensor!]! @skipAuth
+    sensor(userId: Int!, id: Int!): Sensor @skipAuth
+  }
+
+  input FilterInput {
+    waterVolumeSensor: Float
+    grainQuantitySensor: Float
   }
 
   input CreateSensorInput {
@@ -22,14 +27,13 @@ export const schema = gql`
 
   input UpdateSensorInput {
     name: String
-    userId: Int
     waterVolumeSensor: Float
     grainQuantitySensor: Float
   }
 
   type Mutation {
     createSensor(input: CreateSensorInput!): Sensor! @skipAuth
-    updateSensor(id: Int!, idUsuario: Int!, input: UpdateSensorInput!): Sensor! @skipAuth
-    deleteSensor(id: Int!, idUsuario: Int!): Sensor! @skipAuth
+    updateSensor(userId: Int!, id: Int!, input: UpdateSensorInput!): Sensor! @skipAuth
+    deleteSensor(userId: Int!, id: Int!): Sensor! @skipAuth
   }
 `

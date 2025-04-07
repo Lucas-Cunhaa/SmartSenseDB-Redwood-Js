@@ -6,48 +6,87 @@ import type {
 
 import { db } from 'src/lib/db'
 
-export const sensors: QueryResolvers['sensors'] = ( idUsuario ) => {
-  return db.sensor.findMany({
-    where: { userId: idUsuario }
+export const sensors: QueryResolvers['sensors'] = async () => {
+
+  return await db.sensor.findMany();
+}
+
+//filterInput 
+export const sensor: QueryResolvers['sensor'] = async ({ userId, id }) => {
+
+  return await db.sensor.findUnique({
+    where: {
+      id : id, 
+      userId: userId 
+    },
   })
 }
 
-export const sensor: QueryResolvers['sensor'] = ({ id }) => {
-  return db.sensor.findUnique({
-    where: { id },
+export const allUserSensors: QueryResolvers['allUserSensors'] = async ({ userId }) => {
+
+  return await db.sensor.findMany({
+    where: { userId }
   })
 }
 
-export const createSensor: MutationResolvers['createSensor'] = ({ input }) => {
+// export const waterSensors: QueryResolvers['waterSensors'] = async () => {
+  
+//   return await db.sensor.findMany({
+//     where: {
+//       waterVolumeSensor: {
+//         not: null
+//       }
+//     }
+//   })
+// }
+
+// export const waterUserSensors: QueryResolvers['waterUserSensors'] = async ({ userId }) => {
+
+//   return await db.sensor.findMany({
+//     where: {
+//       userId: userId,
+//       waterVolumeSensor: {
+//         not: null
+//       }
+//     }
+//   })
+// }
+
+
+export const createSensor: MutationResolvers['createSensor'] = async ({ input }) => {
+  
   return db.sensor.create({
     data: input,
   })
 }
 
-export const updateSensor: MutationResolvers['updateSensor'] = ({
+export const updateSensor: MutationResolvers['updateSensor'] = async ({
   id,
-  idUsuario,
+  userId,
   input,
 }) => {
+
   return db.sensor.update({
     data: input,
     where: {
       id: id,
-      userId: idUsuario
+      userId: userId
      },
   })
 }
 
-export const deleteSensor: MutationResolvers['deleteSensor'] = ({ id, idUsuario }) => {
+export const deleteSensor: MutationResolvers['deleteSensor'] = async ({ id, userId }) => {
+
   return db.sensor.delete({
     where: {
       id: id,
-      userId: idUsuario
+      userId: userId
     },
   })
 }
 
 export const Sensor: SensorRelationResolvers = {
+  
   owner: (_obj, { root }) => {
     return db.sensor.findUnique({ where: { id: root?.id } }).owner()
   },
