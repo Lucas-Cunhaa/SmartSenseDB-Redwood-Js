@@ -21,7 +21,6 @@ generator client {
 model User {
   @@map("users")
   id Int @id @unique @default(autoincrement())
-  publicId String @unique @default(uuid()) @map("public_id")
   email String  @unique
   name  String
   password String

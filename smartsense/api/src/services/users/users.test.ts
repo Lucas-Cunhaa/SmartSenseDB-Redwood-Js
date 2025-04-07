@@ -17,7 +17,7 @@ describe('users', () => {
   })
 
   scenario('returns a single user', async (scenario: StandardScenario) => {
-    const result = await user({ publicId: scenario.user.one.publicId })
+    const result = await user({ id: scenario.user.one.id })
 
     expect(result).toEqual(scenario.user.one)
   })
@@ -33,9 +33,9 @@ describe('users', () => {
   })
 
   scenario('updates a user', async (scenario: StandardScenario) => {
-    const original = (await user({ publicId: scenario.user.one.publicId })) as User
+    const original = (await user({ id: scenario.user.one.id })) as User
     const result = await updateUser({
-      publicId: original.publicId,
+      id: original.id,
       input: { email: 'String50514632' },
     })
 
@@ -43,8 +43,8 @@ describe('users', () => {
   })
 
   scenario('deletes a user', async (scenario: StandardScenario) => {
-    const original = (await deleteUser({ publicId: scenario.user.one.publicId })) as User
-    const result = await user({ publicId: original.publicId })
+    const original = (await deleteUser({ id: scenario.user.one.id })) as User
+    const result = await user({ id: original.id })
 
     expect(result).toEqual(null)
   })
