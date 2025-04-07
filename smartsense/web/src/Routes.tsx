@@ -7,12 +7,16 @@
 // 'src/pages/HomePage/HomePage.js'         -> HomePage
 // 'src/pages/Admin/BooksPage/BooksPage.js' -> AdminBooksPage
 
-import { Router, Route } from '@redwoodjs/router'
+import { Router, Route, Set} from '@redwoodjs/router'
+import SmartsenseLayout from './layouts/SmartsenseLayout/SmartsenseLayout'
 
 const Routes = () => {
   return (
     <Router>
-      <Route notfound page={NotFoundPage} />
+      <Set wrap={SmartsenseLayout}>
+        <Route path="/homepage" page={HomePage} name="home-page" />
+        <Route notfound page={NotFoundPage} />
+      </Set>
     </Router>
   )
 }
