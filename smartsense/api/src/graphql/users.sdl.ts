@@ -18,9 +18,9 @@ export const schema = gql`
   }
 
   type Query {
-    users: [User!]! @requireAuth
-    user(publicId: String!): User! @requireAuth
-    getUserByEmail(email: String!): User! @requireAuth
+    users: [User!]! @skipAuth
+    user(publicId: String!): User! @skipAuth
+    getUserByEmail(email: String!): User! @skipAuth
   }
 
   input CreateUserInput {
