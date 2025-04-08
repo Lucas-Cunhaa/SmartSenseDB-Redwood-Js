@@ -9,13 +9,25 @@ export const schema = gql`
   }
 
   type Query {
-    sensors(filter: filterInput): [Sensor!]! @skipAuth
-    sensor(userId: Int!, id: Int!): Sensor @skipAuth
+    sensors(userId: Int, filter: filterInput, fields: fieldsInput): [Sensor!]! @skipAuth
+    sensor(userId: Int!, id: Int!, fields: fieldsInput): Sensor @skipAuth
   }
 
-  input FilterInput {
+  enum SensorOderBy {
+    HIGHEST_WATER
+    LOWEST_WATER
+    HIGHEST_GRAIN
+    LOWEST_GRAIN
+  }
+
+  input fieldsInput {
+    name: String
     waterVolumeSensor: Float
     grainQuantitySensor: Float
+  }
+
+  input filterInput {
+    orderBy: SensorOderBy
   }
 
   input CreateSensorInput {

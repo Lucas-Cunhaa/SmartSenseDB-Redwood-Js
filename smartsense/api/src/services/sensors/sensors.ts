@@ -4,14 +4,23 @@ import type {
   SensorRelationResolvers,
 } from 'types/graphql'
 
+
+
 import { db } from 'src/lib/db'
 
-export const sensors: QueryResolvers['sensors'] = async () => {
+import { buildWhere } from 'src/utils/utils';
 
-  return await db.sensor.findMany();
+
+export const sensors: QueryResolvers['sensors'] = async ({ userId, filter, fields}) => {
+  const fieldsWhere = buildWhere(fields);
+
+  let sensors = await db.sensor.findMany(where: {fieldsWhere});
+
+  swith(filter) {
+    case filter.HIGHEST_GRAIN 
+  }
 }
-
-//filterInput 
+ 
 export const sensor: QueryResolvers['sensor'] = async ({ userId, id }) => {
 
   return await db.sensor.findUnique({
@@ -22,12 +31,7 @@ export const sensor: QueryResolvers['sensor'] = async ({ userId, id }) => {
   })
 }
 
-export const allUserSensors: QueryResolvers['allUserSensors'] = async ({ userId }) => {
 
-  return await db.sensor.findMany({
-    where: { userId }
-  })
-}
 
 // export const waterSensors: QueryResolvers['waterSensors'] = async () => {
   
