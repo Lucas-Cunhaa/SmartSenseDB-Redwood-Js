@@ -12,13 +12,44 @@ import { buildWhere } from 'src/utils/utils';
 
 
 export const sensors: QueryResolvers['sensors'] = async ({ userId, filter, fields}) => {
-  const fieldsWhere = buildWhere(fields);
+  const fieldsNotNulls = buildWhere(fields);
+  let oderBy = {};
 
-  let sensors = await db.sensor.findMany(where: {fieldsWhere});
+  switch(filter.orderBy) {
+    case "HIGHEST_WATER":
+      oderBy = {
+          waterVolumeSensor: "asc"
+      }
+      break
 
-  swith(filter) {
-    case filter.HIGHEST_GRAIN 
+    case "LOWEST_WATER":
+      oderBy = {
+        waterVolumeSensor: "desc"
+      }
+      break
+    
+    case "HIGHEST_GRAIN":
+      oderBy = {
+        grainQuantitySensor: "asc"
+      }
+
+    case "LOWEST_GRAIN":
+      oderBy = {
+        grainQuantitySensor: "asc"
+      }
+      break
+    
+    default:
+      oderBy = {
+        waterVolumeSensor: "asc"
+    }
+
   }
+
+  return await db.sensor.findMany({
+    where: fieldsNotNulls, 
+    orderBy : oderBy
+  });
 }
  
 export const sensor: QueryResolvers['sensor'] = async ({ userId, id }) => {
