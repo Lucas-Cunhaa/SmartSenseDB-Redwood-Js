@@ -4,15 +4,12 @@ import type {
   SensorRelationResolvers,
 } from 'types/graphql'
 
-
-
 import { db } from 'src/lib/db'
+import { buildValidObject } from 'src/utils/utils';
 
-import { buildWhere } from 'src/utils/utils';
-
-
-export const sensors: QueryResolvers['sensors'] = async ({ userId, filter, fields}) => {
-  const fieldsNotNulls = buildWhere(fields);
+export const sensors: QueryResolvers['sensors'] = async ({ input, filter, fields }) => {
+  const inputsNotNulls = buildValidObject(input);
+  const fieldsNotNulls = buildValidObject(fields);
   let oderBy = {};
 
   switch(filter.orderBy) {
@@ -47,46 +44,23 @@ export const sensors: QueryResolvers['sensors'] = async ({ userId, filter, field
   }
 
   return await db.sensor.findMany({
-    where: fieldsNotNulls, 
-    orderBy : oderBy
+    where: inputsNotNulls, 
+    orderBy : oderBy,
+    select: fieldsNotNulls
+
   });
+
 }
  
-export const sensor: QueryResolvers['sensor'] = async ({ userId, id }) => {
+export const sensor: QueryResolvers['sensor'] = async ({ input, fields }) => {
+  const inputsNotNulls = buildValidObject(input);
+  const fieldsNotNulls = buildValidObject(fields);
 
-  return await db.sensor.findUnique({
-    where: {
-      id : id, 
-      userId: userId 
-    },
+  return await db.sensor.findFirst({
+    where: inputsNotNulls,
+    select: fieldsNotNulls
   })
 }
-
-
-
-// export const waterSensors: QueryResolvers['waterSensors'] = async () => {
-  
-//   return await db.sensor.findMany({
-//     where: {
-//       waterVolumeSensor: {
-//         not: null
-//       }
-//     }
-//   })
-// }
-
-// export const waterUserSensors: QueryResolvers['waterUserSensors'] = async ({ userId }) => {
-
-//   return await db.sensor.findMany({
-//     where: {
-//       userId: userId,
-//       waterVolumeSensor: {
-//         not: null
-//       }
-//     }
-//   })
-// }
-
 
 export const createSensor: MutationResolvers['createSensor'] = async ({ input }) => {
   

@@ -1,11 +1,11 @@
 export const isEmpty = (field?: string) => !field?.trim()
 
-export const buildWhere = (fields: any) => {
-    let where = {}
-    
-    for (let [key, value] of Object.entries(fields)) {
-        if(value) where[key] = value;
-    }
+export const buildValidObject = (fields: any) => {
+    let newFields = {};
 
-    return where;
+    Object.entries(fields).forEach(([key, value]) => {
+        if(value) fields[key] = value
+    })
+
+    return newFields;
 }
