@@ -5,11 +5,8 @@ import type {
 } from 'types/graphql'
 
 import { db } from 'src/lib/db'
-import { buildValidObject } from 'src/utils/utils'
 
 export const sensors: QueryResolvers['sensors'] = async ({ input, filter }) => {
-  const inputsNotNulls = buildValidObject(input)
-
   let orderBy = {}
 
   switch (filter.orderBy) {
@@ -55,10 +52,10 @@ export const sensors: QueryResolvers['sensors'] = async ({ input, filter }) => {
         {
           waterVolumeSensor:
             filter.selectMode === undefined
-              ? input.grainQuantitySensor
+              ? input.waterVolumeSensor
               : {
                   [filter.selectMode === 'LOWER_THAN' ? 'lte' : 'gte']:
-                    input.grainQuantitySensor,
+                    input.waterVolumeSensor,
                 },
         },
       ],
